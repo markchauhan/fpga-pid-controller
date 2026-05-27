@@ -7,6 +7,8 @@ wire [15:0] measured;
 reg  [15:0] target;
 wire [15:0] control_out; 
 reg [15:0] kp, ki, kd;
+reg [15:0] noise;
+integer seed;
 
 pi_controller dut (
     .clk(clk),
@@ -22,13 +24,19 @@ pi_controller dut (
 plant plant_model (
     .clk(clk),
     .rst_n(rst_n),
-    .control_in(control_out),
+    .control_in(control_out + noise),
     .measured(measured)
 );
 
 // 100 MHz clock
 initial clk = 0; 
 always #5 clk = ~clk; 
+
+//simulates sensor noise 
+always @(posedge clk) begin
+    seed  = $random;
+    noise = seed[3:0];   // 4-bit noise — small random perturbation
+end
 
 initial begin 
     $dumpfile("waveform.vcd");
