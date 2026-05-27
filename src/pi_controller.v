@@ -8,8 +8,12 @@ module pi_controller (
 
 parameter signed [15:0] Kp = 16'sh0080;
 parameter signed [15:0] Ki = 16'sh001A;
+parameter signed [15:0] Kd = 16'sh0040;
 
 reg signed [15:0] error;
+reg signed [15:0] previous_error; 
+reg signed [15:0] error_change; 
+reg signed [15:0] derivative_term;
 reg signed [15:0] proportional_term;
 reg signed [31:0] integrator;
 reg signed [15:0] integral_term;
@@ -39,6 +43,20 @@ always @(posedge clk or negedge rst_n) begin
     end else begin
         integrator <= integrator + (($signed(Ki) * $signed(error)) >>> 8);
         integral_term <= integrator[23:8];
+    end
+end
+
+//Derivative Calculation
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        previous_error  <= 0;
+        error_change    <= 0;
+        derivative_term <= 0;
+    end else begin
+        previous_error  <= error;
+        error_change    <= error - previous_error;
+        derivative_term <= (derivative_term - (derivative_term >>> 2))
+                         + (($signed(Kd) * error_change) >>> 10);
     end
 end
 
