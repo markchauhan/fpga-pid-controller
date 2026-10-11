@@ -169,11 +169,11 @@ initial begin
     latency(16'h0000, 16'h0100, 16'h0000, 16'd100,  "ki-only");
     latency(16'h0000, 16'h0000, 16'h0100, 16'd100,  "kd-only");
     latency(16'h0100, 16'h0000, 16'h0000, 16'd1000, "kp-only");
-    check(edges == 4, "C kp latency is 4 cycles");
+    check(edges == 5, "C kp latency is 5 cycles");
     latency(16'h0000, 16'h0100, 16'h0000, 16'd1000, "ki-only");
-    check(edges == 5, "C ki latency is 5 cycles");
+    check(edges == 6, "C ki latency is 6 cycles");
     latency(16'h0000, 16'h0000, 16'h0100, 16'd1000, "kd-only");
-    check(edges == 5, "C kd latency is 5 cycles");
+    check(edges == 6, "C kd latency is 6 cycles");
 
     // ---------------- D. Max gains, large positive error ----------------
     reset_dut;

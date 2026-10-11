@@ -18,6 +18,10 @@ reg signed [31:0] integrator;
 reg signed [15:0] integral_term;
 reg signed [17:0] pid_sum;
 
+reg signed [31:0] p_product_r; 
+reg signed [31:0] i_product_r; 
+reg signed [31:0] d_product_r; 
+
 
 localparam signed [15:0] OUT_MAX = 16'sh7FFF;
 localparam signed [15:0] OUT_MIN = 16'sh8000;
@@ -32,9 +36,22 @@ always @(posedge clk or negedge rst_n) begin
   else                             error <= err_diff[15:0];
 end
 
+//Multiply stage: one register after each multiplier
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin 
+        p_product_r <= 0;
+        i_product_r <= 0;
+        d_product_r <= 0;
+    end else begin
+        p_product_r <= $signed(kp) * $signed(error);
+        i_product_r <= $signed(ki) * $signed(error);
+        d_product_r <= $signed(kd) * error_change;
+    end
+end
+
 //Proportional calculation
 wire signed [31:0] p_product = $signed(kp) * $signed(error);
-wire signed [31:0] p_scaled = p_product >>> 8; 
+wire signed [31:0] p_scaled = p_product_r >>> 8; 
 
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n)                        proportional_term <= 0;
@@ -48,10 +65,10 @@ localparam signed [31:0] INT_MAX = 32'sh7FFFFFFF;
 localparam signed [31:0] INT_MIN = 32'sh80000000;
 
 wire signed [31:0] i_product = $signed(ki) * $signed(error);
-wire signed [32:0] int_next = integrator + i_product;
+wire signed [32:0] int_next = integrator + i_product_r;
 
-wire sat_hi = (control_out == OUT_MAX) && (error > 0);
-wire sat_lo = (control_out == OUT_MIN) && (error < 0);
+wire sat_hi = (control_out == OUT_MAX) && (i_product_r > 0);
+wire sat_lo = (control_out == OUT_MIN) && (i_product_r < 0);
 
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -69,7 +86,7 @@ end
 //Derivative Calculation
 wire signed [16:0] chg_diff  = error - previous_error;
 wire signed [31:0] d_product = $signed(kd) * error_change;
-wire signed [31:0] d_scaled  = d_product >>> 10;
+wire signed [31:0] d_scaled  = d_product_r >>> 10;
 wire signed [31:0] d_next    = (derivative_term - (derivative_term >>> 2)) + d_scaled;
 
 always @(posedge clk or negedge rst_n) begin

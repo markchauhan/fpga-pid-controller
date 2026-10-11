@@ -32,7 +32,7 @@ plant plant_model (
 initial clk = 0; 
 always #5 clk = ~clk; 
 
-//simulates sensor noise 
+// input disturbance : 0 to 15 counts added to the plant input
 always @(posedge clk) begin
     seed  = $random;
     noise = seed[3:0];   // 4-bit noise — small random perturbation
