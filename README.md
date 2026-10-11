@@ -1,45 +1,67 @@
 # FPGA PID Controller
 
-Real-time PID feedback control loop in Verilog. 60ns latency at 100MHz. Built for laser stabilization, motor drives, and robotic actuators.
+PID feedback controller in Verilog with Q8.8 fixed-point gains, saturating
+arithmetic and an anti-windup integrator. Simulated with Icarus Verilog and
+synthesized with Yosys.
 
-## Specs
+## Design
 
 | Parameter | Value |
 |---|---|
-| Clock | 100 MHz |
-| Loop latency | 6 cycles / 60ns |
-| Word width | 16-bit Q8.8 fixed-point |
-| Gains | Runtime-tunable inputs |
-| Anti-windup | Yes |
-| Derivative filter | Exponential moving average |
-| Plant model | First-order inertia simulation |
+| Data width | 16-bit signed, Q8.8 gains |
+| Gains | Kp, Ki, Kd are runtime inputs |
+| Latency, input to output | 4 clock cycles (P path), 5 (D path); I path: 5 cycles, plus the time for the integral to reach one count |
+| Derivative | Low-pass filtered (keeps 3/4 of the previous value each cycle) |
+| Anti-windup | Integrator clamped to its 32-bit range, and held while the output is saturated in the direction of the error |
+| Saturation | Error, each term, the sum and the output all saturate instead of wrapping |
 
-## What makes this non-trivial
+At a 100 MHz clock the worst-case latency is 50 ns. Timing closure at that
+frequency has not been checked on a target device.
 
-- Full PID with filtered derivative — raw D amplifies noise, the filter keeps it stable
-- Anti-windup integrator — prevents runaway accumulation at output saturation
-- Runtime-tunable gains — Kp, Ki, Kd are module inputs, not hardcoded parameters
-- Closed-loop simulation — plant model with inertia closes the feedback loop in sim
-- Noise injection — random perturbation validates filter performance under disturbance
-- Synthesized with Yosys: 590 cells, 97 flip-flops, 0 problems
+## Verification
 
-## File Structure
+`tb/checks_tb.v` runs directed tests. The first version of this design failed
+two of them, which is how these bugs were found:
 
-- src/pi_controller.v: PID controller, 6-stage pipeline
-- src/plant.v: First-order plant model with inertia
-- tb/pi_controller_tb.v: Closed-loop testbench with noise injection
-- docs/writeup.md: Full technical write-up
-- docs/yosys_report.txt: Synthesis report
+| Test | Before fix | After fix |
+|---|---|---|
+| A. Kp = 1.0, error = 1000 | Output -24 (16-bit multiply truncation) | Output 1000 |
+| B. Ki = 1.0, error +2000 held 5000 cycles | Integral term wrapped; output -26505 | Integrator clamps; output holds at +32767 |
+| B. Sign flips in 20000 cycles after error reverses | 5 | 1 |
+| C. Latency | 4 / 5 / 5 cycles (P / I / D) | Unchanged |
+| D. All gains near maximum, error +30000 | not tested | Output pins at +32767, never wraps |
 
-## Reproduce
+The fixes: 32-bit product wires for each multiply, saturation at every stage,
+an 18-bit sum, the integrator clamp with conditional integration, and an
+integrator that accumulates the full product so small errors are not rounded
+away.
 
-Install on Mac:
-brew install icarus-verilog surfer yosys
+`tb/pi_controller_tb.v` closes the loop around a first-order plant model
+(`src/plant.v`) with noise injection. With its gains (Kp = 0.5, Ki = 0.1,
+Kd = 0.25) the loop converges on the target but slowly: with each target held
+for 10,000 cycles the measured value is still 4 to 6 counts off (about 122,
+188 and 70 for targets of 128, 192 and 64). Held for 100,000 cycles it
+averages 128.0, 192.0 and 64.0, with about ±4 counts of ripple from the
+injected noise. The testbench as written holds each target for 1,000 cycles,
+which is too short to see this.
 
-Simulate:
-iverilog -o sim.out src/pi_controller.v src/plant.v tb/pi_controller_tb.v
-vvp sim.out
-surfer waveform.vcd
+## Synthesis
 
-Synthesize:
-yosys -p "read_verilog src/pi_controller.v; synth -top pi_controller; stat"
+Yosys generic synthesis: 6509 cells, 162 flip-flops (`docs/yosys_report.txt`).
+Most of the cells are three 16x16 multipliers expanded into gates; on an FPGA
+these would map to DSP blocks.
+
+## Files
+
+- `src/pi_controller.v`: the controller
+- `src/plant.v`: first-order plant model for closed-loop simulation
+- `tb/checks_tb.v`: directed overflow, windup, latency and saturation tests
+- `tb/pi_controller_tb.v`: closed-loop testbench with noise injection
+- `docs/yosys_report.txt`: synthesis report
+
+## Run
+
+    brew install icarus-verilog yosys
+    iverilog -o sim.out src/pi_controller.v tb/checks_tb.v && vvp sim.out
+    iverilog -o sim.out src/pi_controller.v src/plant.v tb/pi_controller_tb.v && vvp sim.out
+    yosys -p "read_verilog src/pi_controller.v; synth -top pi_controller; stat"
