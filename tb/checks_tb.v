@@ -5,6 +5,7 @@
 //   B. integrator windup
 //   C. pipeline latency per term
 //   D. max gains with a large positive error
+// Each test prints its measurements, then a PASS/FAIL line.
 // Inputs change on the falling edge, so every rising edge after a change
 // counts as one full clock edge of latency.
 module checks_tb;
@@ -40,6 +41,7 @@ integer integ_wrapped;        // 32-bit integrator changed sign while error held
 integer cycles_out_neg;
 integer cycles_integ_neg;
 integer min_out, max_out;     // control_out extremes during test D
+integer failures;
 reg                prev_out_sign;
 reg signed [31:0]  integ_at_switch;
 reg signed [15:0]  iterm_at_switch;
@@ -56,6 +58,19 @@ task reset_dut;
         repeat (3) @(negedge clk);
         rst_n = 1;
         repeat (3) @(negedge clk);
+    end
+endtask
+
+// Check a condition and display PASS/FAIL with a label.
+task check;
+    input cond;
+    input [8*40-1:0] label;
+    begin
+        if (cond) $display("PASS  %0s", label);
+        else begin
+            $display("FAIL  %0s", label);
+            failures = failures + 1;
+        end
     end
 endtask
 
@@ -85,6 +100,8 @@ task latency;
 endtask
 
 initial begin
+    failures = 0;
+
     // ---------------- A. Overflow ----------------
     reset_dut;
     kp = 16'h0100; ki = 0; kd = 0;
@@ -93,6 +110,7 @@ initial begin
     #1;
     $display("A  kp=1.0 target=1000 measured=0: control_out = %0d (0x%04h), proportional_term = %0d, expected 1000",
              out_s, control_out, dut.proportional_term);
+    check(out_s == 1000, "A proportional output");
 
     // ---------------- B. Windup ----------------
     reset_dut;
@@ -120,6 +138,7 @@ initial begin
     $display("B  32-bit integrator wrapped sign during hold: %0s", integ_wrapped ? "yes" : "no");
     $display("B  integral_term first negative at cycle %0d, control_out first negative at cycle %0d, control_out sign flips during hold: %0d",
              first_neg_iterm, first_neg_out, out_sign_flips);
+    check(out_at_switch == 32767 && first_neg_out < 0, "B holds at max during windup");
 
     @(negedge clk);
     target = 0; measured = 16'd2000;      // error = -2000
@@ -143,14 +162,18 @@ initial begin
              cycles_out_neg, out_at_switch);
     $display("B  cycles after switch until integrator negative: %0d", cycles_integ_neg);
     $display("B  control_out sign flips in 20000 cycles after switch: %0d", out_sign_flips);
+    check(out_sign_flips == 1, "B one sign flip after reversal");
 
     // ---------------- C. Latency ----------------
     latency(16'h0100, 16'h0000, 16'h0000, 16'd100,  "kp-only");
     latency(16'h0000, 16'h0100, 16'h0000, 16'd100,  "ki-only");
     latency(16'h0000, 16'h0000, 16'h0100, 16'd100,  "kd-only");
     latency(16'h0100, 16'h0000, 16'h0000, 16'd1000, "kp-only");
+    check(edges == 4, "C kp latency is 4 cycles");
     latency(16'h0000, 16'h0100, 16'h0000, 16'd1000, "ki-only");
+    check(edges == 5, "C ki latency is 5 cycles");
     latency(16'h0000, 16'h0000, 16'h0100, 16'd1000, "kd-only");
+    check(edges == 5, "C kd latency is 5 cycles");
 
     // ---------------- D. Max gains, large positive error ----------------
     reset_dut;
@@ -174,6 +197,11 @@ initial begin
         $display("D  control_out ever negative: no");
     else
         $display("D  control_out ever negative: yes, first at cycle %0d", first_neg_out);
+    check(first_neg_out < 0 && out_s == 32767, "D saturates without wrapping");
+
+    // ---------------- Summary ----------------
+    if (failures == 0) $display("ALL CHECKS PASSED");
+    else               $display("%0d CHECK(S) FAILED", failures);
 
     $finish;
 end

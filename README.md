@@ -10,6 +10,7 @@ synthesized with Yosys.
 |---|---|
 | Data width | 16-bit signed, Q8.8 gains |
 | Gains | Kp, Ki, Kd are runtime inputs |
+| Integral gain | ki / 256 per clock cycle (the integrator keeps 16 fractional bits) |
 | Latency, input to output | 4 clock cycles (P path), 5 (D path); I path: 5 cycles, plus the time for the integral to reach one count |
 | Derivative | Low-pass filtered (keeps 3/4 of the previous value each cycle) |
 | Anti-windup | Integrator clamped to its 32-bit range, and held while the output is saturated in the direction of the error |
@@ -20,7 +21,7 @@ frequency has not been checked on a target device.
 
 ## Verification
 
-`tb/checks_tb.v` runs directed tests. The first version of this design failed
+`tb/checks_tb.v` runs self-checking directed tests. The first version of this design failed
 two of them, which is how these bugs were found:
 
 | Test | Before fix | After fix |
