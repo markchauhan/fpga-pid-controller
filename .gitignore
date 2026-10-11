@@ -1,3 +1,4 @@
 sim.out
 waveform.vcd
 *.vcd
+pid.json
