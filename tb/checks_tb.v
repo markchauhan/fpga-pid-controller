@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-// Directed checks against pi_controller (open loop, no plant):
+// Directed checks against pid_controller (open loop, no plant):
 //   A. proportional overflow
 //   B. integrator windup
 //   C. pipeline latency per term
@@ -14,7 +14,7 @@ reg  [15:0] measured, target;
 reg  [15:0] kp, ki, kd;
 wire [15:0] control_out;
 
-pi_controller dut (
+pid_controller dut (
     .clk(clk),
     .rst_n(rst_n),
     .measured(measured),

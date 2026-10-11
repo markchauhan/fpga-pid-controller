@@ -6,11 +6,11 @@
  \----------------------------------------------------------------------------/
  Yosys 0.68+post (git sha1 c12172fbae8af5e20f6fb52e3d4e92d56ed587b6, Release, AppleClang clang++ 17.0.0.17000604)
 
--- Running command `read_verilog src/pi_controller.v; synth -top pi_controller; stat' --
+-- Running command `read_verilog src/pid_controller.v; synth -top pid_controller; stat' --
 
-1. Executing Verilog-2005 frontend: src/pi_controller.v
-Parsing Verilog input from `src/pi_controller.v' to AST representation.
-Generating RTLIL representation for module `\pi_controller'.
+1. Executing Verilog-2005 frontend: src/pid_controller.v
+Parsing Verilog input from `src/pid_controller.v' to AST representation.
+Generating RTLIL representation for module `\pid_controller'.
 Successfully finished Verilog frontend.
 
 2. Executing SYNTH pass.
@@ -18,10 +18,10 @@ Successfully finished Verilog frontend.
 2.1. Executing HIERARCHY pass (managing design hierarchy).
 
 2.1.1. Analyzing design hierarchy..
-Top module:  \pi_controller
+Top module:  \pid_controller
 
 2.1.2. Analyzing design hierarchy..
-Top module:  \pi_controller
+Top module:  \pid_controller
 Removed 0 unused modules.
 
 2.2. Executing PROC pass (convert processes to netlists).
@@ -30,12 +30,12 @@ Removed 0 unused modules.
 Cleaned up 0 empty switches.
 
 2.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
-Marked 3 switch rules as full_case in process $proc$src/pi_controller.v:102$41 in module pi_controller.
-Marked 1 switch rules as full_case in process $proc$src/pi_controller.v:94$37 in module pi_controller.
-Marked 5 switch rules as full_case in process $proc$src/pi_controller.v:75$31 in module pi_controller.
-Marked 4 switch rules as full_case in process $proc$src/pi_controller.v:56$20 in module pi_controller.
-Marked 3 switch rules as full_case in process $proc$src/pi_controller.v:39$8 in module pi_controller.
-Marked 3 switch rules as full_case in process $proc$src/pi_controller.v:28$2 in module pi_controller.
+Marked 3 switch rules as full_case in process $proc$src/pid_controller.v:102$41 in module pid_controller.
+Marked 1 switch rules as full_case in process $proc$src/pid_controller.v:94$37 in module pid_controller.
+Marked 5 switch rules as full_case in process $proc$src/pid_controller.v:75$31 in module pid_controller.
+Marked 4 switch rules as full_case in process $proc$src/pid_controller.v:56$20 in module pid_controller.
+Marked 3 switch rules as full_case in process $proc$src/pid_controller.v:39$8 in module pid_controller.
+Marked 3 switch rules as full_case in process $proc$src/pid_controller.v:28$2 in module pid_controller.
 Removed a total of 0 dead cases.
 
 2.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
@@ -45,101 +45,101 @@ Promoted 0 assignments to connections.
 2.2.4. Executing PROC_INIT pass (extract init attributes).
 
 2.2.5. Executing PROC_ARST pass (detect async resets in processes).
-Found async reset \rst_n in `\pi_controller.$proc$src/pi_controller.v:102$41'.
-Found async reset \rst_n in `\pi_controller.$proc$src/pi_controller.v:94$37'.
-Found async reset \rst_n in `\pi_controller.$proc$src/pi_controller.v:75$31'.
-Found async reset \rst_n in `\pi_controller.$proc$src/pi_controller.v:56$20'.
-Found async reset \rst_n in `\pi_controller.$proc$src/pi_controller.v:39$8'.
-Found async reset \rst_n in `\pi_controller.$proc$src/pi_controller.v:28$2'.
+Found async reset \rst_n in `\pid_controller.$proc$src/pid_controller.v:102$41'.
+Found async reset \rst_n in `\pid_controller.$proc$src/pid_controller.v:94$37'.
+Found async reset \rst_n in `\pid_controller.$proc$src/pid_controller.v:75$31'.
+Found async reset \rst_n in `\pid_controller.$proc$src/pid_controller.v:56$20'.
+Found async reset \rst_n in `\pid_controller.$proc$src/pid_controller.v:39$8'.
+Found async reset \rst_n in `\pid_controller.$proc$src/pid_controller.v:28$2'.
 
 2.2.6. Executing PROC_ROM pass (convert switches to ROMs).
 Converted 0 switches.
 <suppressed ~13 debug messages>
 
 2.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\pi_controller.$proc$src/pi_controller.v:102$41'.
+Creating decoders for process `\pid_controller.$proc$src/pid_controller.v:102$41'.
      1/1: $0\control_out[15:0]
-Creating decoders for process `\pi_controller.$proc$src/pi_controller.v:94$37'.
+Creating decoders for process `\pid_controller.$proc$src/pid_controller.v:94$37'.
      1/1: $0\pid_sum[17:0]
-Creating decoders for process `\pi_controller.$proc$src/pi_controller.v:75$31'.
+Creating decoders for process `\pid_controller.$proc$src/pid_controller.v:75$31'.
      1/3: $0\derivative_term[15:0]
      2/3: $0\error_change[15:0]
      3/3: $0\previous_error[15:0]
-Creating decoders for process `\pi_controller.$proc$src/pi_controller.v:56$20'.
+Creating decoders for process `\pid_controller.$proc$src/pid_controller.v:56$20'.
      1/2: $0\integrator[31:0]
      2/2: $0\integral_term[15:0]
-Creating decoders for process `\pi_controller.$proc$src/pi_controller.v:39$8'.
+Creating decoders for process `\pid_controller.$proc$src/pid_controller.v:39$8'.
      1/1: $0\proportional_term[15:0]
-Creating decoders for process `\pi_controller.$proc$src/pi_controller.v:28$2'.
+Creating decoders for process `\pid_controller.$proc$src/pid_controller.v:28$2'.
      1/1: $0\error[15:0]
 
 2.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
 
 2.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
-Creating register for signal `\pi_controller.\control_out' using process `\pi_controller.$proc$src/pi_controller.v:102$41'.
+Creating register for signal `\pid_controller.\control_out' using process `\pid_controller.$proc$src/pid_controller.v:102$41'.
   created $adff cell `$procdff$88' with positive edge clock and positive level reset.
-Creating register for signal `\pi_controller.\pid_sum' using process `\pi_controller.$proc$src/pi_controller.v:94$37'.
+Creating register for signal `\pid_controller.\pid_sum' using process `\pid_controller.$proc$src/pid_controller.v:94$37'.
   created $adff cell `$procdff$93' with positive edge clock and positive level reset.
-Creating register for signal `\pi_controller.\previous_error' using process `\pi_controller.$proc$src/pi_controller.v:75$31'.
+Creating register for signal `\pid_controller.\previous_error' using process `\pid_controller.$proc$src/pid_controller.v:75$31'.
   created $adff cell `$procdff$98' with positive edge clock and positive level reset.
-Creating register for signal `\pi_controller.\error_change' using process `\pi_controller.$proc$src/pi_controller.v:75$31'.
+Creating register for signal `\pid_controller.\error_change' using process `\pid_controller.$proc$src/pid_controller.v:75$31'.
   created $adff cell `$procdff$103' with positive edge clock and positive level reset.
-Creating register for signal `\pi_controller.\derivative_term' using process `\pi_controller.$proc$src/pi_controller.v:75$31'.
+Creating register for signal `\pid_controller.\derivative_term' using process `\pid_controller.$proc$src/pid_controller.v:75$31'.
   created $adff cell `$procdff$108' with positive edge clock and positive level reset.
-Creating register for signal `\pi_controller.\integrator' using process `\pi_controller.$proc$src/pi_controller.v:56$20'.
+Creating register for signal `\pid_controller.\integrator' using process `\pid_controller.$proc$src/pid_controller.v:56$20'.
   created $adff cell `$procdff$113' with positive edge clock and positive level reset.
-Creating register for signal `\pi_controller.\integral_term' using process `\pi_controller.$proc$src/pi_controller.v:56$20'.
+Creating register for signal `\pid_controller.\integral_term' using process `\pid_controller.$proc$src/pid_controller.v:56$20'.
   created $adff cell `$procdff$118' with positive edge clock and positive level reset.
-Creating register for signal `\pi_controller.\proportional_term' using process `\pi_controller.$proc$src/pi_controller.v:39$8'.
+Creating register for signal `\pid_controller.\proportional_term' using process `\pid_controller.$proc$src/pid_controller.v:39$8'.
   created $adff cell `$procdff$123' with positive edge clock and positive level reset.
-Creating register for signal `\pi_controller.\error' using process `\pi_controller.$proc$src/pi_controller.v:28$2'.
+Creating register for signal `\pid_controller.\error' using process `\pid_controller.$proc$src/pid_controller.v:28$2'.
   created $adff cell `$procdff$128' with positive edge clock and positive level reset.
 
 2.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
 
 2.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Found and cleaned up 2 empty switches in `\pi_controller.$proc$src/pi_controller.v:102$41'.
-Removing empty process `pi_controller.$proc$src/pi_controller.v:102$41'.
-Removing empty process `pi_controller.$proc$src/pi_controller.v:94$37'.
-Found and cleaned up 4 empty switches in `\pi_controller.$proc$src/pi_controller.v:75$31'.
-Removing empty process `pi_controller.$proc$src/pi_controller.v:75$31'.
-Found and cleaned up 3 empty switches in `\pi_controller.$proc$src/pi_controller.v:56$20'.
-Removing empty process `pi_controller.$proc$src/pi_controller.v:56$20'.
-Found and cleaned up 2 empty switches in `\pi_controller.$proc$src/pi_controller.v:39$8'.
-Removing empty process `pi_controller.$proc$src/pi_controller.v:39$8'.
-Found and cleaned up 2 empty switches in `\pi_controller.$proc$src/pi_controller.v:28$2'.
-Removing empty process `pi_controller.$proc$src/pi_controller.v:28$2'.
+Found and cleaned up 2 empty switches in `\pid_controller.$proc$src/pid_controller.v:102$41'.
+Removing empty process `pid_controller.$proc$src/pid_controller.v:102$41'.
+Removing empty process `pid_controller.$proc$src/pid_controller.v:94$37'.
+Found and cleaned up 4 empty switches in `\pid_controller.$proc$src/pid_controller.v:75$31'.
+Removing empty process `pid_controller.$proc$src/pid_controller.v:75$31'.
+Found and cleaned up 3 empty switches in `\pid_controller.$proc$src/pid_controller.v:56$20'.
+Removing empty process `pid_controller.$proc$src/pid_controller.v:56$20'.
+Found and cleaned up 2 empty switches in `\pid_controller.$proc$src/pid_controller.v:39$8'.
+Removing empty process `pid_controller.$proc$src/pid_controller.v:39$8'.
+Found and cleaned up 2 empty switches in `\pid_controller.$proc$src/pid_controller.v:28$2'.
+Removing empty process `pid_controller.$proc$src/pid_controller.v:28$2'.
 Cleaned up 13 empty switches.
 
 2.2.12. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 <suppressed ~21 debug messages>
 
 2.3. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.4. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 Removed 15 unused cells and 58 unused wires.
 <suppressed ~16 debug messages>
 
 2.5. Executing CHECK pass (checking for obvious problems).
-Checking module pi_controller...
+Checking module pid_controller...
 Found and reported 0 problems.
 
 2.6. Executing OPT pass (performing simple optimizations).
 
 2.6.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.6.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 51 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 51 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \pi_controller..
+Running muxtree optimizer on module \pid_controller..
   Creating internal representation of mux trees.
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
@@ -147,22 +147,22 @@ Removed 0 multiplexer ports.
 <suppressed ~19 debug messages>
 
 2.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \pi_controller.
+  Optimizing cells in module \pid_controller.
 Performed a total of 0 changes.
 
 2.6.5. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 51 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 51 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.6.6. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.6.8. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.6.9. Finished fast OPT passes. (There is nothing left to do.)
 
@@ -175,7 +175,7 @@ Optimizing module pi_controller.
 2.7.3. Executing FSM_OPT pass (simple optimizations of FSMs).
 
 2.7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.7.5. Executing FSM_OPT pass (simple optimizations of FSMs).
 
@@ -188,16 +188,16 @@ Finding unused cells or wires in module \pi_controller..
 2.8. Executing OPT pass (performing simple optimizations).
 
 2.8.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.8.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 51 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 51 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \pi_controller..
+Running muxtree optimizer on module \pid_controller..
   Creating internal representation of mux trees.
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
@@ -205,30 +205,30 @@ Removed 0 multiplexer ports.
 <suppressed ~19 debug messages>
 
 2.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \pi_controller.
+  Optimizing cells in module \pid_controller.
 Performed a total of 0 changes.
 
 2.8.5. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 51 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 51 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.8.6. Executing OPT_DFF pass (perform DFF optimizations).
-Adding EN signal on $procdff$113 ($adff) from module pi_controller (D = $procmux$67_Y, Q = \integrator).
+Adding EN signal on $procdff$113 ($adff) from module pid_controller (D = $procmux$67_Y, Q = \integrator).
 
 2.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 Removed 1 unused cells and 1 unused wires.
 <suppressed ~2 debug messages>
 
 2.8.8. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.8.9. Rerunning OPT passes. (Maybe there is more to do..)
 
 2.8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \pi_controller..
+Running muxtree optimizer on module \pid_controller..
   Creating internal representation of mux trees.
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
@@ -236,123 +236,123 @@ Removed 0 multiplexer ports.
 <suppressed ~18 debug messages>
 
 2.8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \pi_controller.
+  Optimizing cells in module \pid_controller.
 Performed a total of 0 changes.
 
 2.8.12. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 50 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 50 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.8.13. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.8.15. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.8.16. Finished fast OPT passes. (There is nothing left to do.)
 
 2.9. Executing WREDUCE pass (reducing word size of cells).
-Converting cell pi_controller.$sub$src/pi_controller.v:26$1 ($sub) from unsigned to signed.
-Removed top 1 bits (of 17) from port A of cell pi_controller.$sub$src/pi_controller.v:26$1 ($sub).
-Removed top 1 bits (of 17) from port B of cell pi_controller.$sub$src/pi_controller.v:26$1 ($sub).
-Removed top 1 bits (of 17) from port B of cell pi_controller.$gt$src/pi_controller.v:30$4 ($gt).
-Removed top 1 bits (of 17) from port B of cell pi_controller.$lt$src/pi_controller.v:31$5 ($lt).
-Converting cell pi_controller.$mul$src/pi_controller.v:36$6 ($mul) from unsigned to signed.
-Removed top 16 bits (of 32) from port A of cell pi_controller.$mul$src/pi_controller.v:36$6 ($mul).
-Removed top 16 bits (of 32) from port B of cell pi_controller.$mul$src/pi_controller.v:36$6 ($mul).
-Removed top 8 bits (of 32) from port A of cell pi_controller.$gt$src/pi_controller.v:41$10 ($gt).
-Removed top 16 bits (of 32) from port B of cell pi_controller.$gt$src/pi_controller.v:41$10 ($gt).
-Removed top 8 bits (of 32) from port A of cell pi_controller.$lt$src/pi_controller.v:42$11 ($lt).
-Removed top 16 bits (of 32) from port B of cell pi_controller.$lt$src/pi_controller.v:42$11 ($lt).
-Converting cell pi_controller.$mul$src/pi_controller.v:50$12 ($mul) from unsigned to signed.
-Removed top 16 bits (of 32) from port A of cell pi_controller.$mul$src/pi_controller.v:50$12 ($mul).
-Removed top 16 bits (of 32) from port B of cell pi_controller.$mul$src/pi_controller.v:50$12 ($mul).
-Removed top 1 bits (of 16) from port B of cell pi_controller.$eq$src/pi_controller.v:53$14 ($eq).
-Removed top 31 bits (of 32) from port B of cell pi_controller.$gt$src/pi_controller.v:53$15 ($gt).
-Removed top 31 bits (of 32) from port B of cell pi_controller.$lt$src/pi_controller.v:54$18 ($lt).
-Removed top 16 bits (of 32) from port A of cell pi_controller.$mul$src/pi_controller.v:71$26 ($mul).
-Removed top 18 bits (of 32) from port B of cell pi_controller.$sub$src/pi_controller.v:73$29 ($sub).
-Removed top 15 bits (of 32) from port Y of cell pi_controller.$sub$src/pi_controller.v:73$29 ($sub).
-Converting cell pi_controller.$add$src/pi_controller.v:73$30 ($add) from unsigned to signed.
-Removed top 15 bits (of 32) from port A of cell pi_controller.$add$src/pi_controller.v:73$30 ($add).
-Removed top 10 bits (of 32) from port B of cell pi_controller.$add$src/pi_controller.v:73$30 ($add).
-Removed top 9 bits (of 32) from port Y of cell pi_controller.$add$src/pi_controller.v:73$30 ($add).
-Removed top 1 bits (of 17) from port B of cell pi_controller.$gt$src/pi_controller.v:83$33 ($gt).
-Removed top 1 bits (of 17) from port B of cell pi_controller.$lt$src/pi_controller.v:84$34 ($lt).
-Removed top 9 bits (of 32) from port A of cell pi_controller.$gt$src/pi_controller.v:87$35 ($gt).
-Removed top 16 bits (of 32) from port B of cell pi_controller.$gt$src/pi_controller.v:87$35 ($gt).
-Removed top 9 bits (of 32) from port A of cell pi_controller.$lt$src/pi_controller.v:88$36 ($lt).
-Removed top 16 bits (of 32) from port B of cell pi_controller.$lt$src/pi_controller.v:88$36 ($lt).
-Converting cell pi_controller.$add$src/pi_controller.v:96$39 ($add) from unsigned to signed.
-Removed top 2 bits (of 18) from port A of cell pi_controller.$add$src/pi_controller.v:96$39 ($add).
-Removed top 2 bits (of 18) from port B of cell pi_controller.$add$src/pi_controller.v:96$39 ($add).
-Removed top 1 bits (of 18) from port Y of cell pi_controller.$add$src/pi_controller.v:96$39 ($add).
-Converting cell pi_controller.$add$src/pi_controller.v:96$40 ($add) from unsigned to signed.
-Removed top 1 bits (of 18) from port A of cell pi_controller.$add$src/pi_controller.v:96$40 ($add).
-Removed top 2 bits (of 18) from port B of cell pi_controller.$add$src/pi_controller.v:96$40 ($add).
-Removed top 2 bits (of 18) from port B of cell pi_controller.$gt$src/pi_controller.v:104$43 ($gt).
-Removed top 2 bits (of 18) from port B of cell pi_controller.$lt$src/pi_controller.v:105$44 ($lt).
+Converting cell pid_controller.$sub$src/pid_controller.v:26$1 ($sub) from unsigned to signed.
+Removed top 1 bits (of 17) from port A of cell pid_controller.$sub$src/pid_controller.v:26$1 ($sub).
+Removed top 1 bits (of 17) from port B of cell pid_controller.$sub$src/pid_controller.v:26$1 ($sub).
+Removed top 1 bits (of 17) from port B of cell pid_controller.$gt$src/pid_controller.v:30$4 ($gt).
+Removed top 1 bits (of 17) from port B of cell pid_controller.$lt$src/pid_controller.v:31$5 ($lt).
+Converting cell pid_controller.$mul$src/pid_controller.v:36$6 ($mul) from unsigned to signed.
+Removed top 16 bits (of 32) from port A of cell pid_controller.$mul$src/pid_controller.v:36$6 ($mul).
+Removed top 16 bits (of 32) from port B of cell pid_controller.$mul$src/pid_controller.v:36$6 ($mul).
+Removed top 8 bits (of 32) from port A of cell pid_controller.$gt$src/pid_controller.v:41$10 ($gt).
+Removed top 16 bits (of 32) from port B of cell pid_controller.$gt$src/pid_controller.v:41$10 ($gt).
+Removed top 8 bits (of 32) from port A of cell pid_controller.$lt$src/pid_controller.v:42$11 ($lt).
+Removed top 16 bits (of 32) from port B of cell pid_controller.$lt$src/pid_controller.v:42$11 ($lt).
+Converting cell pid_controller.$mul$src/pid_controller.v:50$12 ($mul) from unsigned to signed.
+Removed top 16 bits (of 32) from port A of cell pid_controller.$mul$src/pid_controller.v:50$12 ($mul).
+Removed top 16 bits (of 32) from port B of cell pid_controller.$mul$src/pid_controller.v:50$12 ($mul).
+Removed top 1 bits (of 16) from port B of cell pid_controller.$eq$src/pid_controller.v:53$14 ($eq).
+Removed top 31 bits (of 32) from port B of cell pid_controller.$gt$src/pid_controller.v:53$15 ($gt).
+Removed top 31 bits (of 32) from port B of cell pid_controller.$lt$src/pid_controller.v:54$18 ($lt).
+Removed top 16 bits (of 32) from port A of cell pid_controller.$mul$src/pid_controller.v:71$26 ($mul).
+Removed top 18 bits (of 32) from port B of cell pid_controller.$sub$src/pid_controller.v:73$29 ($sub).
+Removed top 15 bits (of 32) from port Y of cell pid_controller.$sub$src/pid_controller.v:73$29 ($sub).
+Converting cell pid_controller.$add$src/pid_controller.v:73$30 ($add) from unsigned to signed.
+Removed top 15 bits (of 32) from port A of cell pid_controller.$add$src/pid_controller.v:73$30 ($add).
+Removed top 10 bits (of 32) from port B of cell pid_controller.$add$src/pid_controller.v:73$30 ($add).
+Removed top 9 bits (of 32) from port Y of cell pid_controller.$add$src/pid_controller.v:73$30 ($add).
+Removed top 1 bits (of 17) from port B of cell pid_controller.$gt$src/pid_controller.v:83$33 ($gt).
+Removed top 1 bits (of 17) from port B of cell pid_controller.$lt$src/pid_controller.v:84$34 ($lt).
+Removed top 9 bits (of 32) from port A of cell pid_controller.$gt$src/pid_controller.v:87$35 ($gt).
+Removed top 16 bits (of 32) from port B of cell pid_controller.$gt$src/pid_controller.v:87$35 ($gt).
+Removed top 9 bits (of 32) from port A of cell pid_controller.$lt$src/pid_controller.v:88$36 ($lt).
+Removed top 16 bits (of 32) from port B of cell pid_controller.$lt$src/pid_controller.v:88$36 ($lt).
+Converting cell pid_controller.$add$src/pid_controller.v:96$39 ($add) from unsigned to signed.
+Removed top 2 bits (of 18) from port A of cell pid_controller.$add$src/pid_controller.v:96$39 ($add).
+Removed top 2 bits (of 18) from port B of cell pid_controller.$add$src/pid_controller.v:96$39 ($add).
+Removed top 1 bits (of 18) from port Y of cell pid_controller.$add$src/pid_controller.v:96$39 ($add).
+Converting cell pid_controller.$add$src/pid_controller.v:96$40 ($add) from unsigned to signed.
+Removed top 1 bits (of 18) from port A of cell pid_controller.$add$src/pid_controller.v:96$40 ($add).
+Removed top 2 bits (of 18) from port B of cell pid_controller.$add$src/pid_controller.v:96$40 ($add).
+Removed top 2 bits (of 18) from port B of cell pid_controller.$gt$src/pid_controller.v:104$43 ($gt).
+Removed top 2 bits (of 18) from port B of cell pid_controller.$lt$src/pid_controller.v:105$44 ($lt).
 
 2.10. Executing PEEPOPT pass (run peephole optimizers).
 
 2.11. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.12. Executing ALUMACC pass (create $alu and $macc cells).
-Extracting $alu and $macc cells in module pi_controller:
-  creating $macc model for $add$src/pi_controller.v:96$40 ($add).
-  creating $macc model for $add$src/pi_controller.v:96$39 ($add).
-  creating $macc model for $add$src/pi_controller.v:73$30 ($add).
-  creating $macc model for $sub$src/pi_controller.v:73$29 ($sub).
-  creating $macc model for $mul$src/pi_controller.v:71$26 ($mul).
-  creating $macc model for $sub$src/pi_controller.v:70$25 ($sub).
-  creating $macc model for $add$src/pi_controller.v:51$13 ($add).
-  creating $macc model for $mul$src/pi_controller.v:50$12 ($mul).
-  creating $macc model for $mul$src/pi_controller.v:36$6 ($mul).
-  creating $macc model for $sub$src/pi_controller.v:26$1 ($sub).
-  merging $macc model for $mul$src/pi_controller.v:50$12 into $add$src/pi_controller.v:51$13.
-  merging $macc model for $sub$src/pi_controller.v:73$29 into $add$src/pi_controller.v:73$30.
-  merging $macc model for $add$src/pi_controller.v:96$39 into $add$src/pi_controller.v:96$40.
-  creating $alu model for $macc $sub$src/pi_controller.v:70$25.
-  creating $alu model for $macc $sub$src/pi_controller.v:26$1.
-  creating $macc cell for $mul$src/pi_controller.v:71$26: $auto$alumacc.cc:399:replace_macc$130
-  creating $macc cell for $mul$src/pi_controller.v:36$6: $auto$alumacc.cc:399:replace_macc$131
-  creating $macc cell for $add$src/pi_controller.v:73$30: $auto$alumacc.cc:399:replace_macc$132
-  creating $macc cell for $add$src/pi_controller.v:51$13: $auto$alumacc.cc:399:replace_macc$133
-  creating $macc cell for $add$src/pi_controller.v:96$40: $auto$alumacc.cc:399:replace_macc$134
-  creating $alu model for $lt$src/pi_controller.v:105$44 ($lt): new $alu
-  creating $alu model for $gt$src/pi_controller.v:104$43 ($gt): new $alu
-  creating $alu model for $lt$src/pi_controller.v:88$36 ($lt): new $alu
-  creating $alu model for $gt$src/pi_controller.v:87$35 ($gt): new $alu
-  creating $alu model for $lt$src/pi_controller.v:84$34 ($lt): new $alu
-  creating $alu model for $gt$src/pi_controller.v:83$33 ($gt): new $alu
-  creating $alu model for $lt$src/pi_controller.v:63$24 ($lt): new $alu
-  creating $alu model for $gt$src/pi_controller.v:62$23 ($gt): new $alu
-  creating $alu model for $lt$src/pi_controller.v:54$18 ($lt): new $alu
-  creating $alu model for $gt$src/pi_controller.v:53$15 ($gt): merged with $lt$src/pi_controller.v:54$18.
-  creating $alu model for $lt$src/pi_controller.v:42$11 ($lt): new $alu
-  creating $alu model for $gt$src/pi_controller.v:41$10 ($gt): new $alu
-  creating $alu model for $lt$src/pi_controller.v:31$5 ($lt): new $alu
-  creating $alu model for $gt$src/pi_controller.v:30$4 ($gt): new $alu
-  creating $alu cell for $gt$src/pi_controller.v:30$4: $auto$alumacc.cc:548:replace_alu$148
-  creating $alu cell for $lt$src/pi_controller.v:31$5: $auto$alumacc.cc:548:replace_alu$161
-  creating $alu cell for $gt$src/pi_controller.v:41$10: $auto$alumacc.cc:548:replace_alu$168
-  creating $alu cell for $lt$src/pi_controller.v:42$11: $auto$alumacc.cc:548:replace_alu$181
-  creating $alu cell for $lt$src/pi_controller.v:54$18, $gt$src/pi_controller.v:53$15: $auto$alumacc.cc:548:replace_alu$188
-  creating $alu cell for $gt$src/pi_controller.v:62$23: $auto$alumacc.cc:548:replace_alu$201
-  creating $alu cell for $lt$src/pi_controller.v:63$24: $auto$alumacc.cc:548:replace_alu$214
-  creating $alu cell for $gt$src/pi_controller.v:83$33: $auto$alumacc.cc:548:replace_alu$221
-  creating $alu cell for $lt$src/pi_controller.v:84$34: $auto$alumacc.cc:548:replace_alu$234
-  creating $alu cell for $gt$src/pi_controller.v:87$35: $auto$alumacc.cc:548:replace_alu$241
-  creating $alu cell for $lt$src/pi_controller.v:88$36: $auto$alumacc.cc:548:replace_alu$254
-  creating $alu cell for $gt$src/pi_controller.v:104$43: $auto$alumacc.cc:548:replace_alu$261
-  creating $alu cell for $lt$src/pi_controller.v:105$44: $auto$alumacc.cc:548:replace_alu$274
-  creating $alu cell for $sub$src/pi_controller.v:26$1: $auto$alumacc.cc:548:replace_alu$281
-  creating $alu cell for $sub$src/pi_controller.v:70$25: $auto$alumacc.cc:548:replace_alu$284
+Extracting $alu and $macc cells in module pid_controller:
+  creating $macc model for $add$src/pid_controller.v:96$40 ($add).
+  creating $macc model for $add$src/pid_controller.v:96$39 ($add).
+  creating $macc model for $add$src/pid_controller.v:73$30 ($add).
+  creating $macc model for $sub$src/pid_controller.v:73$29 ($sub).
+  creating $macc model for $mul$src/pid_controller.v:71$26 ($mul).
+  creating $macc model for $sub$src/pid_controller.v:70$25 ($sub).
+  creating $macc model for $add$src/pid_controller.v:51$13 ($add).
+  creating $macc model for $mul$src/pid_controller.v:50$12 ($mul).
+  creating $macc model for $mul$src/pid_controller.v:36$6 ($mul).
+  creating $macc model for $sub$src/pid_controller.v:26$1 ($sub).
+  merging $macc model for $mul$src/pid_controller.v:50$12 into $add$src/pid_controller.v:51$13.
+  merging $macc model for $sub$src/pid_controller.v:73$29 into $add$src/pid_controller.v:73$30.
+  merging $macc model for $add$src/pid_controller.v:96$39 into $add$src/pid_controller.v:96$40.
+  creating $alu model for $macc $sub$src/pid_controller.v:70$25.
+  creating $alu model for $macc $sub$src/pid_controller.v:26$1.
+  creating $macc cell for $mul$src/pid_controller.v:71$26: $auto$alumacc.cc:399:replace_macc$130
+  creating $macc cell for $mul$src/pid_controller.v:36$6: $auto$alumacc.cc:399:replace_macc$131
+  creating $macc cell for $add$src/pid_controller.v:73$30: $auto$alumacc.cc:399:replace_macc$132
+  creating $macc cell for $add$src/pid_controller.v:51$13: $auto$alumacc.cc:399:replace_macc$133
+  creating $macc cell for $add$src/pid_controller.v:96$40: $auto$alumacc.cc:399:replace_macc$134
+  creating $alu model for $lt$src/pid_controller.v:105$44 ($lt): new $alu
+  creating $alu model for $gt$src/pid_controller.v:104$43 ($gt): new $alu
+  creating $alu model for $lt$src/pid_controller.v:88$36 ($lt): new $alu
+  creating $alu model for $gt$src/pid_controller.v:87$35 ($gt): new $alu
+  creating $alu model for $lt$src/pid_controller.v:84$34 ($lt): new $alu
+  creating $alu model for $gt$src/pid_controller.v:83$33 ($gt): new $alu
+  creating $alu model for $lt$src/pid_controller.v:63$24 ($lt): new $alu
+  creating $alu model for $gt$src/pid_controller.v:62$23 ($gt): new $alu
+  creating $alu model for $lt$src/pid_controller.v:54$18 ($lt): new $alu
+  creating $alu model for $gt$src/pid_controller.v:53$15 ($gt): merged with $lt$src/pid_controller.v:54$18.
+  creating $alu model for $lt$src/pid_controller.v:42$11 ($lt): new $alu
+  creating $alu model for $gt$src/pid_controller.v:41$10 ($gt): new $alu
+  creating $alu model for $lt$src/pid_controller.v:31$5 ($lt): new $alu
+  creating $alu model for $gt$src/pid_controller.v:30$4 ($gt): new $alu
+  creating $alu cell for $gt$src/pid_controller.v:30$4: $auto$alumacc.cc:548:replace_alu$148
+  creating $alu cell for $lt$src/pid_controller.v:31$5: $auto$alumacc.cc:548:replace_alu$161
+  creating $alu cell for $gt$src/pid_controller.v:41$10: $auto$alumacc.cc:548:replace_alu$168
+  creating $alu cell for $lt$src/pid_controller.v:42$11: $auto$alumacc.cc:548:replace_alu$181
+  creating $alu cell for $lt$src/pid_controller.v:54$18, $gt$src/pid_controller.v:53$15: $auto$alumacc.cc:548:replace_alu$188
+  creating $alu cell for $gt$src/pid_controller.v:62$23: $auto$alumacc.cc:548:replace_alu$201
+  creating $alu cell for $lt$src/pid_controller.v:63$24: $auto$alumacc.cc:548:replace_alu$214
+  creating $alu cell for $gt$src/pid_controller.v:83$33: $auto$alumacc.cc:548:replace_alu$221
+  creating $alu cell for $lt$src/pid_controller.v:84$34: $auto$alumacc.cc:548:replace_alu$234
+  creating $alu cell for $gt$src/pid_controller.v:87$35: $auto$alumacc.cc:548:replace_alu$241
+  creating $alu cell for $lt$src/pid_controller.v:88$36: $auto$alumacc.cc:548:replace_alu$254
+  creating $alu cell for $gt$src/pid_controller.v:104$43: $auto$alumacc.cc:548:replace_alu$261
+  creating $alu cell for $lt$src/pid_controller.v:105$44: $auto$alumacc.cc:548:replace_alu$274
+  creating $alu cell for $sub$src/pid_controller.v:26$1: $auto$alumacc.cc:548:replace_alu$281
+  creating $alu cell for $sub$src/pid_controller.v:70$25: $auto$alumacc.cc:548:replace_alu$284
   created 15 $alu and 5 $macc cells.
 
 2.13. Executing SHARE pass (SAT-based resource sharing).
@@ -360,17 +360,17 @@ Extracting $alu and $macc cells in module pi_controller:
 2.14. Executing OPT pass (performing simple optimizations).
 
 2.14.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 <suppressed ~9 debug messages>
 
 2.14.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 95 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 95 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \pi_controller..
+Running muxtree optimizer on module \pid_controller..
   Creating internal representation of mux trees.
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
@@ -378,29 +378,29 @@ Removed 0 multiplexer ports.
 <suppressed ~18 debug messages>
 
 2.14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \pi_controller.
+  Optimizing cells in module \pid_controller.
 Performed a total of 0 changes.
 
 2.14.5. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 95 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 95 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.14.6. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 Removed 9 unused cells and 28 unused wires.
 <suppressed ~12 debug messages>
 
 2.14.8. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.14.9. Rerunning OPT passes. (Maybe there is more to do..)
 
 2.14.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \pi_controller..
+Running muxtree optimizer on module \pid_controller..
   Creating internal representation of mux trees.
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
@@ -408,22 +408,22 @@ Removed 0 multiplexer ports.
 <suppressed ~18 debug messages>
 
 2.14.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \pi_controller.
+  Optimizing cells in module \pid_controller.
 Performed a total of 0 changes.
 
 2.14.12. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 85 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 85 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.14.13. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.14.14. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.14.15. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.14.16. Finished fast OPT passes. (There is nothing left to do.)
 
@@ -442,7 +442,7 @@ Performed a total of 0 transformations.
 2.15.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
 
 2.15.6. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.15.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
 
@@ -450,29 +450,29 @@ Finding unused cells or wires in module \pi_controller..
 Performed a total of 0 transformations.
 
 2.15.9. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.15.10. Executing MEMORY_COLLECT pass (generating $mem cells).
 
 2.16. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.17. Executing OPT pass (performing simple optimizations).
 
 2.17.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 <suppressed ~6 debug messages>
 
 2.17.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 191 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 191 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.17.3. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.17.4. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 Removed 106 unused cells and 106 unused wires.
 <suppressed ~107 debug messages>
 
@@ -483,16 +483,16 @@ Removed 106 unused cells and 106 unused wires.
 2.19. Executing OPT pass (performing simple optimizations).
 
 2.19.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.19.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 85 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 85 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.19.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \pi_controller..
+Running muxtree optimizer on module \pid_controller..
   Creating internal representation of mux trees.
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
@@ -500,13 +500,13 @@ Removed 0 multiplexer ports.
 <suppressed ~18 debug messages>
 
 2.19.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-  Optimizing cells in module \pi_controller.
+  Optimizing cells in module \pid_controller.
 Performed a total of 0 changes.
 
 2.19.5. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 85 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 85 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.19.6. Executing OPT_SHARE pass.
@@ -514,10 +514,10 @@ Removed a total of 0 cells.
 2.19.7. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.19.8. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 
 2.19.9. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.19.10. Finished fast OPT passes. (There is nothing left to do.)
 
@@ -617,46 +617,46 @@ No more expansions possible.
 2.21. Executing OPT pass (performing simple optimizations).
 
 2.21.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 <suppressed ~4698 debug messages>
 
 2.21.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 9276 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 8766 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 8502 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 8263 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 8139 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 8008 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 7930 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 7890 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 7875 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 7861 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 7854 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 7850 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 7846 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
-Computing hashes of 7844 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 9276 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 8766 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 8502 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 8263 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 8139 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 8008 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 7930 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 7890 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 7875 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 7861 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 7854 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 7850 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 7846 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
+Computing hashes of 7844 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 <suppressed ~4296 debug messages>
 Removed a total of 1432 cells.
 
 2.21.3. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 Removed 494 unused cells and 1758 unused wires.
 <suppressed ~495 debug messages>
 
@@ -664,7 +664,7 @@ Removed 494 unused cells and 1758 unused wires.
 
 2.22. Executing ABC pass (technology mapping using ABC).
 
-2.22.1. Extracting gate netlist of module `\pi_controller' to `<abc-temp-dir>/input.blif'..
+2.22.1. Extracting gate netlist of module `\pid_controller' to `<abc-temp-dir>/input.blif'..
 
 2.22.1.1. Executed ABC.
 Extracted 7188 gates and 7432 wires to a netlist network with 242 inputs and 131 outputs.
@@ -708,36 +708,36 @@ Removing global temp directory.
 2.23. Executing OPT pass (performing simple optimizations).
 
 2.23.1. Executing OPT_EXPR pass (perform const folding).
-Optimizing module pi_controller.
+Optimizing module pid_controller.
 
 2.23.2. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\pi_controller'.
-Computing hashes of 6509 cells of `\pi_controller'.
-Finding duplicate cells in `\pi_controller'.
+Finding identical cells in module `\pid_controller'.
+Computing hashes of 6509 cells of `\pid_controller'.
+Finding duplicate cells in `\pid_controller'.
 Removed a total of 0 cells.
 
 2.23.3. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \pi_controller..
+Finding unused cells or wires in module \pid_controller..
 Removed 0 unused cells and 1325 unused wires.
 <suppressed ~10 debug messages>
 
 2.23.5. Finished fast OPT passes.
 
 2.24. Executing HIERARCHY pass (managing design hierarchy).
-Attribute `top' found on module `pi_controller'. Setting top module to pi_controller.
+Attribute `top' found on module `pid_controller'. Setting top module to pid_controller.
 
 2.24.1. Analyzing design hierarchy..
-Top module:  \pi_controller
+Top module:  \pid_controller
 
 2.24.2. Analyzing design hierarchy..
-Top module:  \pi_controller
+Top module:  \pid_controller
 Removed 0 unused modules.
 
 2.25. Printing statistics.
 
-=== pi_controller ===
+=== pid_controller ===
 
         +----------Local Count, excluding submodules.
         | 
@@ -762,12 +762,12 @@ Removed 0 unused modules.
      1779   $_XOR_
 
 2.26. Executing CHECK pass (checking for obvious problems).
-Checking module pi_controller...
+Checking module pid_controller...
 Found and reported 0 problems.
 
 3. Printing statistics.
 
-=== pi_controller ===
+=== pid_controller ===
 
         +----------Local Count, excluding submodules.
         | 
@@ -791,6 +791,6 @@ Found and reported 0 problems.
       298   $_XNOR_
      1779   $_XOR_
 
-End of script. Logfile hash: 7ac803f40e, time: 1.82s, user: 0.52s, system: 0.04s, MEM: 75.95 MB peak
+End of script. Logfile hash: 5385179df1, time: 1.83s, user: 0.54s, system: 0.04s, MEM: 74.59 MB peak
 Yosys 0.68+post (git sha1 c12172fbae8af5e20f6fb52e3d4e92d56ed587b6, Release, AppleClang clang++ 17.0.0.17000604)
-Time spent: 73% 1x abc (1 sec), 6% 1x techmap (0 sec), ...
+Time spent: 72% 1x abc (1 sec), 6% 1x techmap (0 sec), ...

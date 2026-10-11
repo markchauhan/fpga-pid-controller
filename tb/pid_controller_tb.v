@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module pi_controller_tb; 
+module pid_controller_tb; 
 
 reg         clk, rst_n; 
 wire [15:0] measured;
@@ -10,7 +10,7 @@ reg [15:0] kp, ki, kd;
 reg [15:0] noise;
 integer seed;
 
-pi_controller dut (
+pid_controller dut (
     .clk(clk),
     .rst_n(rst_n),
     .measured(measured),
@@ -40,7 +40,7 @@ end
 
 initial begin 
     $dumpfile("waveform.vcd");
-    $dumpvars(0, pi_controller_tb);
+    $dumpvars(0, pid_controller_tb);
 end
 
 initial begin

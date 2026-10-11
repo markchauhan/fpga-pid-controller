@@ -1,4 +1,4 @@
-module pi_controller (
+module pid_controller (
     input wire          clk, 
     input wire          rst_n,   
     input wire [15:0]   measured, 

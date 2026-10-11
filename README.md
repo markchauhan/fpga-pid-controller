@@ -36,7 +36,7 @@ an 18-bit sum, the integrator clamp with conditional integration, and an
 integrator that accumulates the full product so small errors are not rounded
 away.
 
-`tb/pi_controller_tb.v` closes the loop around a first-order plant model
+`tb/pid_controller_tb.v` closes the loop around a first-order plant model
 (`src/plant.v`) with noise injection. With its gains (Kp = 0.5, Ki = 0.1,
 Kd = 0.25) the loop converges on the target but slowly: with each target held
 for 10,000 cycles the measured value is still 4 to 6 counts off (about 122,
@@ -53,15 +53,15 @@ these would map to DSP blocks.
 
 ## Files
 
-- `src/pi_controller.v`: the controller
+- `src/pid_controller.v`: the controller
 - `src/plant.v`: first-order plant model for closed-loop simulation
 - `tb/checks_tb.v`: directed overflow, windup, latency and saturation tests
-- `tb/pi_controller_tb.v`: closed-loop testbench with noise injection
+- `tb/pid_controller_tb.v`: closed-loop testbench with noise injection
 - `docs/yosys_report.txt`: synthesis report
 
 ## Run
 
     brew install icarus-verilog yosys
-    iverilog -o sim.out src/pi_controller.v tb/checks_tb.v && vvp sim.out
-    iverilog -o sim.out src/pi_controller.v src/plant.v tb/pi_controller_tb.v && vvp sim.out
-    yosys -p "read_verilog src/pi_controller.v; synth -top pi_controller; stat"
+    iverilog -o sim.out src/pid_controller.v tb/checks_tb.v && vvp sim.out
+    iverilog -o sim.out src/pid_controller.v src/plant.v tb/pid_controller_tb.v && vvp sim.out
+    yosys -p "read_verilog src/pid_controller.v; synth -top pid_controller; stat"
